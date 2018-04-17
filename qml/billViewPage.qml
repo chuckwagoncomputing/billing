@@ -24,7 +24,7 @@ Rectangle {
   width: billViewPage.width
   clip: true
   Column {
-   width: Math.max(scroller.viewport.width, implicitWidth)
+   width: implicitWidth
    height: children.height
    Label {
     id: customerNameLabel
