@@ -28,6 +28,8 @@ type CustomerModel struct {
  _ func(id string, role int) *core.QVariant `slot:"getData"`
 
  _ func() int `slot:"count"`
+
+ _ func() `slot:"reset"`
 }
 
 func (cm *CustomerModel) init() {
@@ -43,6 +45,7 @@ func (cm *CustomerModel) init() {
  cm.ConnectFindIndex(cm.find)
  cm.ConnectGetData(cm.getData)
  cm.ConnectCount(cm.count)
+ cm.ConnectReset(cm.reset)
 }
 
 func (cm *CustomerModel) roleNames() map[int]*core.QByteArray {
@@ -158,4 +161,10 @@ func (cm *CustomerModel) addCustomer(c *Customer) {
  cm.SetCustomers(s)
  cm.EndInsertRows()
  billModel.update()
+}
+
+func (cm *CustomerModel) reset() {
+ cm.BeginRemoveRows(core.NewQModelIndex(), 0, len(cm.Customers()) - 1)
+ cm.SetCustomers([]*Customer{})
+ cm.EndRemoveRows()
 }

@@ -157,6 +157,7 @@ Rectangle {
     window.jobsLoaded = -1
    }
    if (customerChanged) {
+    CustomerModel.reset()
     QmlBridge.loadCustomers(settings.customerUrl,
                             settings.customerUsername,
                             settings.customerPassword)

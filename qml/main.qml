@@ -181,6 +181,45 @@ ApplicationWindow {
    }
   }
 
+  ToolButton {
+   id: refreshButton
+   visible: stack.currentItem.refreshEnabled || false
+   anchors.left: settingsButton.right
+   anchors.verticalCenter: parent.verticalCenter
+   width: parent.height
+   height: parent.height
+   contentItem: Image {
+    fillMode: Image.PreserveAspectFit
+    horizontalAlignment: Image.AlignHCenter
+    verticalAlignment: Image.AlignVCenter
+    source: "images/refresh.png"
+   }
+   onClicked: {
+    BillModel.reset()
+    JobModel.reset()
+    CustomerModel.reset()
+    window.billLoaderSource = billLabel
+    window.billLabelMessage = "Loading Bills..."
+    QmlBridge.loadBills(settings.billDbType,
+                        settings.billDbHost,
+                        settings.billDbPort,
+                        settings.billDbName,
+                        settings.billDbUsername,
+                        settings.billDbPassword)
+     QmlBridge.loadJobs(settings.billDbType,
+                        settings.billDbHost,
+                        settings.billDbPort,
+                        settings.billDbName,
+                        settings.billDbUsername,
+                        settings.billDbPassword)
+    QmlBridge.loadCustomers(settings.customerUrl,
+                            settings.customerUsername,
+                            settings.customerPassword)
+    window.billsLoaded = -1
+    window.jobsLoaded = -1
+   }
+  }
+
   // This a new type of page indicator which I invented...
   PageIndicator {
    id: editIndicator

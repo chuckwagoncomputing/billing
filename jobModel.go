@@ -26,6 +26,8 @@ type JobModel struct {
  _ func() int `slot:"count"`
  _ func(i int, r int) *core.QVariant `slot:"getData"`
  _ []*Job `property:"jobs"`
+
+ _ func() `slot:"reset"`
 }
 
 func (jm *JobModel) init() {
@@ -40,6 +42,7 @@ func (jm *JobModel) init() {
  jm.ConnectRoleNames(jm.roleNames)
  jm.ConnectCount(jm.count)
  jm.ConnectGetData(jm.getData)
+ jm.ConnectReset(jm.reset)
 }
 
 func (jm *JobModel) roleNames() map[int]*core.QByteArray {
@@ -175,4 +178,10 @@ func (jm *JobModel) loadJobs(jdType string, jdHost string, jdPort string, jdName
  }
  jm.SetJobs(pJobs)
  qmlBridge.JobsLoaded(len(jobs))
+}
+
+func (jm *JobModel) reset() {
+ jm.BeginRemoveRows(core.NewQModelIndex(), 0, len(jm.Jobs()) - 1)
+ jm.SetJobs([]*Job{})
+ jm.EndRemoveRows()
 }

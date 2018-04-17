@@ -24,6 +24,8 @@ type BillModel struct {
 
  _ func(*Bill) `slot:"addBill"`
  _ []*Bill `property:"bills"`
+
+ _ func() `slot:"reset"`
 }
 
 func (bm *BillModel) init() {
@@ -36,6 +38,7 @@ func (bm *BillModel) init() {
  bm.ConnectRowCount(bm.rowCount)
  bm.ConnectRoleNames(bm.roleNames)
  bm.ConnectAddBill(bm.addBill)
+ bm.ConnectReset(bm.reset)
 }
 
 func (bm *BillModel) roleNames() map[int]*core.QByteArray {
@@ -236,4 +239,10 @@ func (bm *BillModel) removeBill(i int) {
 
 func (bm *BillModel) update() {
  bm.DataChanged(bm.CreateIndex(0, 0, unsafe.Pointer(new(uintptr))), bm.CreateIndex(len(bm.Bills()) - 1, 0, unsafe.Pointer(new(uintptr))), []int{BillJobID, Billed, Paid})
+}
+
+func (bm *BillModel) reset() {
+ bm.BeginRemoveRows(core.NewQModelIndex(), 0, len(bm.Bills()) - 1)
+ bm.SetBills([]*Bill{})
+ bm.EndRemoveRows()
 }

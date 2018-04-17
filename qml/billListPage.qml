@@ -11,6 +11,7 @@ Rectangle {
  property bool settingsEnabled: true
  property bool indicatorEnabled: true
  property int indicatorIndex: 0
+ property bool refreshEnabled: true
  signal add()
  onAdd: {
   currentBill.reset()

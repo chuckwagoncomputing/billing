@@ -53,7 +53,6 @@ Rectangle {
    if (contentHeight < height) {
     headerItem.height += (height - contentHeight)
    }
-   currentIndex = count-1
    positionViewAtEnd()
   }
   Component.onCompleted: {
