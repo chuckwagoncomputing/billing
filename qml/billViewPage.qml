@@ -18,40 +18,43 @@ Rectangle {
   }
  }
  ScrollView {
+  id: billScrollView
   anchors.top: parent.top
   anchors.bottom: copyButton.top
-  width: parent.width
-  Label {
-   id: customerNameLabel
-   width: parent.width
-   text: CustomerModel.getData(JobModel.getData(parseInt(currentBill.billJobId), 0), 1)
-   font.pixelSize: 26
-   anchors.margins: 10
-  }
-  Label {
-   id: billedLabel
-   anchors.top: customerNameLabel.bottom
-   width: parent.width
-   text: "Billed: " + Number(currentBill.billed)
-   font.pixelSize: 20
-   anchors.margins: 10
-  }
-  Label {
-   id: paidLabel
-   anchors.top: billedLabel.bottom
-   width: parent.width
-   text: "Paid: " + Number(currentBill.paid)
-   font.pixelSize: 20
-   anchors.margins: 10
-  }
-  Label {
-   id: descriptionLabel
-   anchors.top: paidLabel.bottom
-   width: parent.width
-   text: JobModel.getData(parseInt(currentBill.billJobId), 7)
-   wrapMode: Text.Wrap
-   font.pixelSize: 18
-   anchors.margins: 10
+  width: billViewPage.width
+  clip: true
+  Column {
+   width: Math.max(scroller.viewport.width, implicitWidth)
+   height: children.height
+   Label {
+    id: customerNameLabel
+    width: parent.width
+    text: CustomerModel.getData(JobModel.getData(parseInt(currentBill.billJobId), 0), 1)
+    font.pixelSize: 26
+    anchors.margins: 10
+   }
+   Label {
+    id: billedLabel
+    width: parent.width
+    text: "Billed: " + Number(currentBill.billed)
+    font.pixelSize: 20
+    anchors.margins: 10
+   }
+   Label {
+    id: paidLabel
+    width: parent.width
+    text: "Paid: " + Number(currentBill.paid)
+    font.pixelSize: 20
+    anchors.margins: 10
+   }
+   Label {
+    id: descriptionLabel
+    width: billViewPage.width
+    text: JobModel.getData(parseInt(currentBill.billJobId), 7)
+    wrapMode: Text.Wrap
+    font.pixelSize: 18
+    anchors.margins: 10
+   }
   }
  }
  Button {

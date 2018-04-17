@@ -8,6 +8,7 @@ Rectangle {
  property bool indicatorEnabled: true
  property int indicatorIndex: 2
  property bool forwardEnabled: true
+ property bool doublePop: jobModel.count() > 0 ? false : true
  signal forward()
  onForward: {
   currentBill.billed = billed.text

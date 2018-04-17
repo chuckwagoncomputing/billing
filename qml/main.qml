@@ -102,6 +102,9 @@ ApplicationWindow {
     source: "images/back.png"
    }
    onClicked: {
+    if (stack.currentItem.doublePop) {
+     stack.pop()
+    }
     stack.pop()
    }
   }
@@ -293,6 +296,7 @@ ApplicationWindow {
    id: errorToolTip
    width: parent.width
    contentItem: Text {
+    anchors.fill: parent
     text: errorToolTip.text
     font: errorToolTip.font
     color: "#000000"
