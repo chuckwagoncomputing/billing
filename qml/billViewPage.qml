@@ -24,8 +24,6 @@ Rectangle {
   width: billViewPage.width
   clip: true
   Column {
-   width: implicitWidth
-   height: children.height
    Label {
     id: customerNameLabel
     width: parent.width
