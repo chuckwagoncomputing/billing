@@ -67,28 +67,30 @@ Rectangle {
    var state = "";
    var zip = "";
 
-   if (addr[2].length > 0 && addr[3].length > 0) {
-    address = addr[2];
-   }
+   if (addr.length > 1) {
+    if (addr[2].length > 0 && addr[3].length > 0) {
+     address = addr[2];
+    }
 
-   if (addr[3].length > 0) {
-    city = addr[3];
-   }
+    if (addr[3].length > 0) {
+     city = addr[3];
+    }
 
-   if (addr[4].length > 0) {
-    state = addr[4];
-   }
+    if (addr[4].length > 0) {
+     state = addr[4];
+    }
 
-   if (addr[5].length > 0) {
-    zip = addr[5];
-   }
+    if (addr[5].length > 0) {
+     zip = addr[5];
+    }
 
-   if (address.length === 0 && city.length === 0) {
-    var cutAddr = addr[2].split(" ").reverse();
-    zip = cutAddr[0];
-    state = cutAddr[1];
-    city = cutAddr[2];
-    address = cutAddr.slice(3).reverse().join(" ");
+    if (address.length === 0 && city.length === 0) {
+     var cutAddr = addr[2].split(" ").reverse();
+     zip = cutAddr[0];
+     state = cutAddr[1];
+     city = cutAddr[2];
+     address = cutAddr.slice(3).reverse().join(" ");
+    }
    }
    var custom = JSON.parse(JobModel.getData(parseInt(currentBill.billJobId), 3))
    var csvText = "billed,paid,datetime,customername,customeraddress,customercity,customerstate,customerzip"
