@@ -52,7 +52,6 @@ ApplicationWindow {
   }
 
   onError: {
-console.log("wat up dawg")
    errorToolTip.text = errmsg
    errorToolTip.visible = true
   }
