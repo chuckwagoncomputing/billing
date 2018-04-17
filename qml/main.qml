@@ -177,6 +177,7 @@ ApplicationWindow {
    }
   }
 
+  // This a new type of page indicator which I invented...
   PageIndicator {
    id: editIndicator
    z: 1
@@ -189,6 +190,7 @@ ApplicationWindow {
    delegate: Loader {
     property var thisIndex: index
     sourceComponent: {
+     // Each indicator dot has three states: Loading, Loaded, or N/A
      switch (index) {
       case 0:
        if (window.billsLoaded > 0) {
@@ -220,6 +222,9 @@ ApplicationWindow {
   }
  }
 
+ // -1: Loading
+ //  0: N/A
+ // >0: Loaded
  property int billsLoaded: -1
  property int jobsLoaded: -1
 
@@ -236,6 +241,7 @@ ApplicationWindow {
 
  Component {
   id: indicatorRect
+  // The rect-in-rect is to achieve the same sizing as the loading indicator
   Rectangle {
    height: 28
    width: 28
@@ -277,10 +283,12 @@ ApplicationWindow {
   initialItem: "qrc:///qml/billListPage.qml"
  }
 
+ // There's a rectangle just off the screen...
  Rectangle {
   id: errorTip
   width: parent.width
   anchors.top: parent.bottom
+  // ...and it has a tool tip that may appear
   ToolTip {
    id: errorToolTip
    width: parent.width
@@ -326,6 +334,7 @@ ApplicationWindow {
                           settings.customerPassword)
  }
 
+ // Handle the back button in Android
  onClosing: {
   if (Qt.platform.os == "android" && backButton.visible) {
    stack.pop()

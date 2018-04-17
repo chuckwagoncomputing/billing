@@ -77,6 +77,7 @@ func (cm *CustomerModel) count() int {
  return len(cm.Customers())
 }
 
+// Find index by UID, e.g. 6d402d14-d0b9-4dba-91a8-4039fd76c9a0.vcf
 func (cm *CustomerModel) find(id string) int {
  for i, c := range cm.Customers() {
   if c.CustomerID == id {
@@ -86,6 +87,8 @@ func (cm *CustomerModel) find(id string) int {
  return -1
 }
 
+// Get data by UID and role int. I haven't figured out yet how roles are assigned,
+//  so this is kind of magic-number stuff
 func (cm *CustomerModel) getData(id string, role int) *core.QVariant {
  i := cm.find(id)
  if i < 0 {
@@ -141,6 +144,7 @@ func (cm *CustomerModel) parseCustomer(data io.Reader, i int, f os.FileInfo) {
 
 func (cm *CustomerModel) addCustomer(c *Customer) {
  begin := len(cm.Customers())
+ // Loop through until we find where the customer should be inserted for proper sorting.
  for i := 0; i < len(cm.Customers()); i++ {
   if strings.ToLower(cm.Customers()[i].CustomerName) > strings.ToLower(c.CustomerName) {
    begin = i

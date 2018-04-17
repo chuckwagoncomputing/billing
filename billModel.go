@@ -85,6 +85,8 @@ type BillDB struct {
  dbPassword string
 }
 
+// Opens the database and returns a database object.
+// Be sure to call db.Close() when you are done with it.
 func (bd *BillDB) Open() (*gorm.DB, error) {
  var db *gorm.DB
  var err error
@@ -111,6 +113,7 @@ func (bm *BillModel) loadBillsShim(t string, h string, p string, n string, u str
 }
 
 func (bm *BillModel) loadBills(t string, h string, p string, n string, u string, k string) {
+ // Lock the database. If it's already locked, wait for it to be unlocked.
  dbMutex.Lock()
  defer dbMutex.Unlock()
  billDb = BillDB{t, h, p, n, u, k}
@@ -129,6 +132,7 @@ func (bm *BillModel) loadBills(t string, h string, p string, n string, u string,
   qmlBridge.ErrorLoadingBills("Failed to load bills from database.")
   return
  }
+ // Convert the array of Bills into an array of *Bills
  pBills := make([]*Bill, len(bills))
  for i, _ := range bills {
   pBills[i] = &bills[i]
@@ -142,6 +146,9 @@ func (bm *BillModel) newBillShim(j string, b string, p string) {
 }
 
 func (bm *BillModel) buildBill(j string, b string, p string) {
+ // Lock the database. If it's already locked, wait for it to be unlocked.
+ dbMutex.Lock()
+ defer dbMutex.Unlock()
  db, err := billDb.Open()
  if err != nil {
   qmlBridge.Error(err.Error())
@@ -160,8 +167,6 @@ func (bm *BillModel) buildBill(j string, b string, p string) {
 }
 
 func (bm *BillModel) addBill(b *Bill) {
- dbMutex.Lock()
- defer dbMutex.Unlock()
  bm.BeginInsertRows(core.NewQModelIndex(), len(bm.Bills()), len(bm.Bills()))
  bm.SetBills(append(bm.Bills(), b))
  bm.EndInsertRows()
@@ -175,6 +180,7 @@ func (bm *BillModel) editBillShim(i int, j string, b string, p string) {
 }
 
 func (bm *BillModel) editBill(i int, j string, b string, p string) {
+ // Lock the database. If it's already locked, wait for it to be unlocked.
  dbMutex.Lock()
  defer dbMutex.Unlock()
  if i < 0 || i >= len(bm.Bills()) {
@@ -206,6 +212,7 @@ func (bm *BillModel) removeBillShim(i int) {
 }
 
 func (bm *BillModel) removeBill(i int) {
+ // Lock the database. If it's already locked, wait for it to be unlocked.
  dbMutex.Lock()
  defer dbMutex.Unlock()
  if i < 0 || i >= len(bm.Bills()) {

@@ -34,6 +34,7 @@ var billModel *BillModel
 var jobModel *JobModel
 var customerModel *CustomerModel
 
+// dbMutex is for controlling DB access.
 var dbMutex sync.Mutex
 
 var app *gui.QGuiApplication
@@ -43,10 +44,12 @@ func main() {
  billModel = NewBillModel(nil)
  jobModel = NewJobModel(nil)
  customerModel = NewCustomerModel(nil)
+
  core.QCoreApplication_SetAttribute(core.Qt__AA_EnableHighDpiScaling, true)
  app = gui.NewQGuiApplication(len(os.Args), os.Args)
  quickcontrols2.QQuickStyle_SetStyle("material")
  view := qml.NewQQmlApplicationEngine(nil)
+
  qmlBridge.ConnectLoadBills(billModel.loadBillsShim)
  qmlBridge.ConnectNewBill(billModel.newBillShim)
  qmlBridge.ConnectEditBill(billModel.editBillShim)
@@ -54,10 +57,12 @@ func main() {
  qmlBridge.ConnectLoadJobs(jobModel.loadJobsShim)
  qmlBridge.ConnectLoadCustomers(customerModel.loadCustomersShim)
  qmlBridge.ConnectCopyText(copyText)
+
  view.RootContext().SetContextProperty("QmlBridge", qmlBridge)
  view.RootContext().SetContextProperty("BillModel", billModel)
  view.RootContext().SetContextProperty("JobModel", jobModel)
  view.RootContext().SetContextProperty("CustomerModel", customerModel)
+
  view.Load(core.NewQUrl3("qrc:///qml/main.qml", 0))
  gui.QGuiApplication_Exec()
 }

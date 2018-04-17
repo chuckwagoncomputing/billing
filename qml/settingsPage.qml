@@ -99,6 +99,7 @@ Rectangle {
   }
  }
  StackView.onStatusChanged: {
+  // Check for changes and save them
   if (StackView.status === StackView.Deactivating) {
    var billDbChanged, customerChanged = false
    if (settings.billDbType != billDbTypeField.currentText) {
