@@ -52,7 +52,9 @@ ApplicationWindow {
   }
 
   onError: {
-   errorTip.ToolTip.show(errmsg, 3000)
+console.log("wat up dawg")
+   errorToolTip.text = errmsg
+   errorToolTip.visible = true
   }
  }
 
@@ -286,20 +288,21 @@ ApplicationWindow {
   initialItem: "qrc:///qml/billListPage.qml"
  }
 
- // There's a rectangle just off the screen...
  Rectangle {
-  id: errorTip
-  width: parent.width
-  anchors.top: parent.bottom
-  // ...and it has a tool tip that may appear
+  anchors.bottom: parent.bottom
+  anchors.margins: 10
+  anchors.left: parent.left
+  anchors.right: parent.right
+  z: 1
   ToolTip {
    id: errorToolTip
    width: parent.width
+   timeout: 3000
    contentItem: Text {
-    anchors.fill: parent
+    width: parent.width
     text: errorToolTip.text
     font: errorToolTip.font
-    color: "#000000"
+    color: "#ffffff"
     wrapMode: Text.Wrap
    }
   }
