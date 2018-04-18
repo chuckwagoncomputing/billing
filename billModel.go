@@ -131,7 +131,7 @@ func (bm *BillModel) loadBills(t string, h string, p string, n string, u string,
   return
  }
  var bills []Bill
- if err := db.Find(&bills).Error; err != nil {
+ if err := db.Order("id").Find(&bills).Error; err != nil {
   qmlBridge.ErrorLoadingBills("Failed to load bills from database.")
   return
  }
