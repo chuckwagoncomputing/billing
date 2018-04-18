@@ -57,7 +57,7 @@ Rectangle {
  }
  Button {
   id: copyButton
-  text: "Copy CSV"
+  text: "Copy TSV"
   width: parent.width
   anchors.bottom: deleteButton.top
   onClicked: {
@@ -94,32 +94,30 @@ Rectangle {
     }
    }
    var custom = JSON.parse(JobModel.getData(parseInt(currentBill.billJobId), 3))
-   var csvText = "billed,paid,datetime,customername,customeraddress,customercity,customerstate,customerzip"
+   var tsvText = "billed\tpaid\tdatetime\tcustomername\tcustomeraddress\tcustomercity\tcustomerstate\tcustomerzip"
    for (var i = 0; i < Object.keys(custom).length; i++) {
-    csvText += "," + Object.keys(custom)[i]
+    tsvText += "\t" + Object.keys(custom)[i]
    }
-   csvText += "\n"
-   csvText += '"'
+   tsvText += "\n"
             + currentBill.billed
-            + '","'
+            + "\t"
             + currentBill.paid
-            + '","'
+            + "\t"
             + JobModel.getData(parseInt(currentBill.billJobId), 1)
-            + '","'
+            + "\t"
             + CustomerModel.getData(JobModel.getData(parseInt(currentBill.billJobId), 0), 1)
-            + '","'
+            + "\t"
             + address
-            + '","'
+            + "\t"
             + city
-            + '","'
+            + "\t"
             + state
-            + '","'
+            + "\t"
             + zip
-            + '"'
    for (var i = 0; i < Object.keys(custom).length; i++) {
-    csvText += ',"' + custom[Object.keys(custom)[i]] + '"'
+    tsvText += '\t' + custom[Object.keys(custom)[i]]
    }
-   QmlBridge.copyText(csvText)
+   QmlBridge.copyText(tsvText)
   }
  }
  Button {
