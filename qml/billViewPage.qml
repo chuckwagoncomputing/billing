@@ -94,7 +94,7 @@ Rectangle {
     }
    }
    var custom = JSON.parse(JobModel.getData(parseInt(currentBill.billJobId), 3))
-   var tsvText = "billed\tpaid\tdatetime\tcustomername\tcustomeraddress\tcustomercity\tcustomerstate\tcustomerzip"
+   var tsvText = "billed\tpaid\tdescription\tdatetime\tcustomername\tcustomeraddress\tcustomercity\tcustomerstate\tcustomerzip"
    for (var i = 0; i < Object.keys(custom).length; i++) {
     tsvText += "\t" + Object.keys(custom)[i]
    }
@@ -102,9 +102,9 @@ Rectangle {
             + currentBill.billed
             + "\t"
             + currentBill.paid
-            + "\t"
-            + JobModel.getData(parseInt(currentBill.billJobId), 1)
-            + "\t"
+            + '\t"'
+            + JobModel.getData(parseInt(currentBill.billJobId), 7)
+            + '"\t'
             + CustomerModel.getData(JobModel.getData(parseInt(currentBill.billJobId), 0), 1)
             + "\t"
             + address
