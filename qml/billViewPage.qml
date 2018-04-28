@@ -105,6 +105,8 @@ Rectangle {
             + '\t"'
             + JobModel.getData(parseInt(currentBill.billJobId), 7)
             + '"\t'
+            + JobModel.getData(parseInt(currentBill.billJobId), 1)
+            + "\t"
             + CustomerModel.getData(JobModel.getData(parseInt(currentBill.billJobId), 0), 1)
             + "\t"
             + address
